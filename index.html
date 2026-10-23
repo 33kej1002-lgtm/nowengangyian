@@ -1,0 +1,1141 @@
+<title>AI 강의 제작 프롬프트 모음집</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: a paper workbook — one numbered card per prompt, in the order the workshop uses them, each with a copy-ready prompt. */
+:root{
+  --paper:#F4F2ED; --card:#FFFFFF; --sunk:#FAF8F4; --ink:#1E2430; --ink-soft:#4F5A6B; --ink-faint:#86909F;
+  --rule:#E0DCD3; --rule-firm:#CFC9BD;
+  --accent:#00529B; --accent-soft:#E4EDF7; --accent-ink:#003C74; --on-accent:#FFFFFF;
+  --mark:#B4610F; --mark-soft:#FAEEE1;
+  --good:#1C6F52; --good-soft:#E4F1EB;
+  --shadow:0 1px 2px rgba(30,36,48,.05), 0 10px 28px rgba(30,36,48,.06);
+  --display:"Gowun Batang", Georgia, serif;
+  --body:"IBM Plex Sans KR", system-ui, -apple-system, "Malgun Gothic", sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,"D2Coding",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#13161C; --card:#1C212A; --sunk:#171C24; --ink:#E9ECF1; --ink-soft:#AFB9C7; --ink-faint:#7D8798;
+  --rule:#2E3540; --rule-firm:#3C4552;
+  --accent:#74B4EF; --accent-soft:#1B2A3C; --accent-ink:#A9D1F6; --on-accent:#0E1A27;
+  --mark:#E0A261; --mark-soft:#32261A;
+  --good:#5EC6A0; --good-soft:#162E26;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#13161C; --card:#1C212A; --sunk:#171C24; --ink:#E9ECF1; --ink-soft:#AFB9C7; --ink-faint:#7D8798;
+  --rule:#2E3540; --rule-firm:#3C4552;
+  --accent:#74B4EF; --accent-soft:#1B2A3C; --accent-ink:#A9D1F6; --on-accent:#0E1A27;
+  --mark:#E0A261; --mark-soft:#32261A;
+  --good:#5EC6A0; --good-soft:#162E26;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--paper)}
+.wrap{max-width:780px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.32}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:5px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+/* masthead */
+.masthead{padding-block:30px 22px;border-bottom:2px solid var(--rule-firm);margin-bottom:8px}
+.eyebrow{font-size:12.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.masthead h1{font-size:clamp(29px,6.4vw,44px);font-weight:700;margin-top:9px}
+.masthead .sub{color:var(--ink-soft);font-size:16px;margin-top:10px}
+.masthead .meta{display:flex;gap:6px 18px;flex-wrap:wrap;margin-top:16px;font-size:13.5px;color:var(--ink-faint)}
+.masthead .meta b{color:var(--ink-soft);font-weight:600}
+
+/* sticky nav */
+.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);
+  border-bottom:1px solid var(--rule);margin-bottom:26px;padding-block:10px}
+.toc-scroll{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:3px}
+.toc a{flex:none;font-size:13px;font-weight:600;text-decoration:none;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:6px 13px;white-space:nowrap}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.on{border-color:var(--good);color:var(--good);background:var(--good-soft)}
+.toc-prog{display:flex;align-items:center;gap:10px;margin-top:9px;font-size:12.5px;color:var(--ink-faint)}
+.toc-prog .tr{flex:1;height:5px;background:var(--rule);border-radius:999px;overflow:hidden}
+.toc-prog .tf{height:100%;background:var(--good);width:0;transition:width .3s}
+.toc-prog .tn{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* generic blocks */
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:clamp(18px,4vw,30px);box-shadow:var(--shadow);scroll-margin-top:110px}
+.stack{display:flex;flex-direction:column;gap:20px}
+.lede{font-size:17px;color:var(--ink-soft);margin-top:10px}
+.sect-label{font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--mark)}
+h2.big{font-size:clamp(23px,5vw,31px);font-weight:700;margin-top:8px}
+
+/* chapter divider */
+.chapter{padding-block:20px 2px;margin-top:14px;scroll-margin-top:110px}
+.chapter .ch-k{font-size:12.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.chapter h2{font-size:clamp(24px,5.4vw,34px);font-weight:700;margin-top:6px}
+.chapter p{color:var(--ink-soft);font-size:16px;margin-top:8px}
+
+/* practice head */
+.p-top{display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap}
+.p-badge{flex:none;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;border-radius:8px;padding:5px 11px;letter-spacing:.02em}
+.p-time{flex:none;background:var(--mark-soft);color:var(--mark);font-size:12.5px;font-weight:700;border-radius:999px;padding:5px 11px}
+.p-done{margin-left:auto}
+.chk{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-faint);
+  background:var(--sunk);border:1px solid var(--rule);border-radius:999px;padding:5px 13px 5px 9px;cursor:pointer}
+.chk input{width:17px;height:17px;accent-color:var(--good);cursor:pointer;margin:0}
+.chk.on{color:var(--good);border-color:var(--good);background:var(--good-soft)}
+.p-title{font-size:clamp(21px,4.6vw,27px);font-weight:700;margin-top:14px}
+.p-why{color:var(--ink-soft);font-size:16px;margin-top:8px}
+
+/* input → output strip */
+.io{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.io > div{border:1px solid var(--rule);border-radius:11px;background:var(--sunk);padding:11px 13px;min-width:0}
+.io .k{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink-faint)}
+.io .v{font-size:14.5px;font-weight:600;margin-top:3px;line-height:1.5}
+.io .tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:1px 7px}
+@media (max-width:560px){.io{grid-template-columns:1fr}}
+
+/* steps */
+ol.steps{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column}
+ol.steps li{display:flex;gap:14px;padding:13px 0;border-top:1px solid var(--rule)}
+ol.steps li:first-child{border-top:none;padding-top:4px}
+ol.steps .sn{flex:none;width:27px;height:27px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);
+  font-size:13.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+ol.steps .st{min-width:0;font-size:16.5px;line-height:1.65}
+ol.steps .st b{font-weight:600}
+ol.steps .st .note{display:block;font-size:14.5px;color:var(--ink-faint);margin-top:3px}
+
+/* prompt box */
+.prompt{margin-top:18px;border:1.5px solid var(--accent);border-radius:12px;overflow:hidden;background:var(--sunk)}
+.prompt-bar{display:flex;align-items:center;gap:10px;background:var(--accent-soft);padding:9px 13px;flex-wrap:wrap}
+.prompt-bar .pl{font-size:13px;font-weight:700;color:var(--accent-ink);min-width:0}
+.prompt-bar .ln{font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.prompt-bar .sp{flex:1}
+.cpy{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);border-radius:7px;padding:5px 13px;font-size:13px;font-weight:600;flex:none}
+.cpy.done{background:var(--good);border-color:var(--good)}
+.tgl{border:1px solid var(--rule-firm);background:var(--card);color:var(--ink-soft);border-radius:7px;padding:5px 11px;font-size:13px;font-weight:600;flex:none}
+.prompt pre{margin:0;padding:15px 16px;font-family:var(--mono);font-size:14.5px;line-height:1.78;
+  white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.prompt.long pre{max-height:360px;overflow:auto}
+.prompt.long.open pre{max-height:none}
+.prompt .fill{color:var(--mark);font-weight:700}
+.prompt.mini{margin-top:10px;border-width:1px}
+.prompt.mini pre{font-size:14px;padding:11px 14px}
+.prompt.mini .prompt-bar{padding:6px 11px}
+
+/* boxes */
+.box{margin-top:18px;border-radius:11px;padding:15px 17px;font-size:15.5px;line-height:1.68}
+.box .bk{font-size:12.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px}
+.box.ok{background:var(--good-soft);color:var(--ink)}
+.box.ok .bk{color:var(--good)}
+.box.warn{background:var(--mark-soft);color:var(--ink)}
+.box.warn .bk{color:var(--mark)}
+.box.info{background:var(--accent-soft);color:var(--ink)}
+.box.info .bk{color:var(--accent-ink)}
+.box ul{margin:6px 0 0;padding-left:19px}
+.box li{margin-top:4px}
+.box li::marker{color:var(--ink-faint)}
+.box code,.st code{font-family:var(--mono);font-size:.9em;background:var(--card);border:1px solid var(--rule);border-radius:5px;padding:0 5px}
+
+/* fill-in sheet */
+.sheet{margin-top:20px;border:1.5px dashed var(--rule-firm);border-radius:12px;padding:16px 17px;background:var(--sunk)}
+.sheet-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px}
+.sheet-h .t{font-family:var(--display);font-size:17.5px;font-weight:700}
+.sheet-h .n{font-size:13px;color:var(--ink-faint)}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+@media (max-width:560px){.fgrid{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:5px;margin-top:13px;min-width:0}
+.fld label{font-size:14px;font-weight:600;color:var(--ink-soft)}
+.fld label .q{color:var(--ink-faint);font-weight:400}
+input[type=text]{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--card);
+  border:1.5px solid var(--rule);border-radius:9px;padding:10px 12px;min-width:0}
+input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.btn{border:1.5px solid var(--accent);background:var(--accent);color:var(--on-accent);border-radius:9px;padding:9px 16px;font-weight:600;font-size:14.5px}
+.btn.ghost{background:transparent;color:var(--accent);border-color:var(--rule-firm)}
+.btn.done{background:var(--good);border-color:var(--good)}
+
+/* pipeline */
+.flow{display:flex;flex-direction:column;margin-top:18px}
+.fstep{display:grid;grid-template-columns:44px minmax(0,1fr);gap:0 14px;position:relative}
+.fstep .dot{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;z-index:1}
+.fstep.alt .dot{background:var(--sunk);border:1.5px dashed var(--accent);}
+.fstep:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--rule-firm)}
+.fstep .fb{padding:4px 0 20px;min-width:0}
+.fstep .fn{font-weight:700;font-size:16.5px}
+.fstep .fn a{color:inherit;text-decoration:none}
+.fstep .fn a:hover{color:var(--accent)}
+.fstep .fd{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+.fstep .fo{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.fstep .fo span{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--good);background:var(--good-soft);border-radius:6px;padding:2px 8px}
+.fstep .fo span.t{font-family:var(--body);color:var(--mark);background:var(--mark-soft)}
+
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{font-size:13.5px;font-weight:600;background:var(--sunk);border:1px solid var(--rule);border-radius:999px;padding:5px 12px;color:var(--ink-soft)}
+
+.final{background:var(--accent);color:var(--on-accent);border:none}
+.final h2,.final p,.final .sect-label{color:var(--on-accent)}
+.final .quote{font-family:var(--display);font-size:clamp(20px,4.4vw,26px);font-weight:700;line-height:1.45;margin-top:12px}
+.final .lede{opacity:.9}
+.foot{margin-top:34px;padding-top:18px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink-faint)}
+@media (max-width:430px){
+  body{font-size:16px}
+  .prompt pre{font-size:13.5px}
+  ol.steps .st{font-size:15.5px}
+}
+@media print{
+  body{background:#fff}
+  .toc,.cpy,.tgl,.chk,.sheet .row{display:none!important}
+  .card{box-shadow:none;break-inside:auto}
+  .prompt.long pre{max-height:none}
+}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">노원여성인력개발센터 · 생성형 AI 강의 제작 워크숍</p>
+    <h1>AI 강의 제작 프롬프트 모음집</h1>
+    <p class="sub">생성형 AI로 만드는 나만의 강의안과 슬라이드. 강의 설계부터 design.md, 스토리라인, 편집 가능한 PPTX, 최종 검수까지 수업에서 쓴 프롬프트 6가지를 순서대로 담았습니다. 복사 버튼을 누르고 AI 대화창에 붙여 넣기만 하면 됩니다.</p>
+    <div class="meta">
+      <span><b>강사</b> 김은정 (꿀쌤) · AI톡톡연구소</span>
+      <span><b>구성</b> 프롬프트 6종 · 5단계</span>
+      <span><b>도구</b> ChatGPT · Gemini · Claude</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-scroll" id="toc">
+      <a href="#how">사용법</a>
+      <a href="#flow">전체 흐름</a>
+    </div>
+    <div class="toc-prog"><span>사용한 프롬프트</span><div class="tr"><div class="tf" id="tf"></div></div><span class="tn" id="tn">0 / 6</span></div>
+  </nav>
+
+  <main class="stack" id="main">
+    <section class="card" id="how">
+      <p class="sect-label">먼저 읽어 주세요</p>
+      <h2 class="big">이렇게 쓰면 됩니다</h2>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="st">프롬프트 상자 오른쪽 위의 <b>프롬프트 복사</b> 버튼을 누릅니다.<span class="note">버튼이 초록색 ‘복사했습니다’로 바뀌면 성공입니다. 복사가 안 되면 상자 안 글자를 마우스로 끌어 선택한 뒤 Ctrl + C를 누르세요.</span></span></li>
+        <li><span class="sn">2</span><span class="st">ChatGPT, Gemini, Claude 중 쓰는 AI의 입력창을 한 번 클릭하고 <b>Ctrl + V</b>로 붙여 넣습니다.</span></li>
+        <li><span class="sn">3</span><span class="st"><b class="fillnote" style="color:var(--mark)">주황색 글씨</b>는 내 내용으로 바꿔 쓰는 자리입니다. 바꾼 뒤 보냅니다.<span class="note">프롬프트 0번은 아래 입력칸에 쓰면 프롬프트에 자동으로 들어갑니다.</span></span></li>
+        <li><span class="sn">4</span><span class="st">결과를 확인하고, <b>같은 대화창</b>에서 다음 번호의 프롬프트를 이어서 붙여 넣습니다.<span class="note">다 쓴 프롬프트는 ‘사용했어요’에 체크해 두세요. 체크는 이 브라우저에 저장됩니다.</span></span></li>
+      </ol>
+      <div class="box info">
+        <p class="bk">왜 같은 대화창일까요? · 이름표 규칙</p>
+        <p>프롬프트마다 결과 첫 줄에 <code>[강의안 v1]</code>, <code>[강의설계표 v1]</code>, <code>[스토리라인 v1]</code> 같은 이름표를 붙이게 되어 있습니다. 같은 대화 안에서는 이 이름만 불러도 AI가 앞의 결과를 다시 찾아 씁니다. 그래서 긴 결과물을 매번 다시 붙여 넣을 필요가 없습니다. 수정을 요청하면 v2, v3으로 번호가 올라가고, 다음 단계는 항상 가장 최신 번호를 사용합니다.</p>
+      </div>
+    </section>
+
+    <section class="card" id="flow">
+      <p class="sect-label">한눈에 보기</p>
+      <h2 class="big">아이디어 하나가 강의 PPT가 되기까지</h2>
+      <p class="lede">좋은 슬라이드는 PPT에서 시작하지 않습니다. 누구에게, 무엇을, 어떤 흐름으로 가르칠지 먼저 정하고 그 다음에 디자인과 슬라이드로 넘어갑니다.</p>
+      <div class="flow" id="flowList"></div>
+      <div class="box warn">
+        <p class="bk">시작 전 준비물</p>
+        <ul>
+          <li>개인 노트북, ChatGPT 또는 Gemini 로그인</li>
+          <li>만들고 싶은 강의 주제 1개 (기존 강의안이 있으면 함께)</li>
+          <li>디자인을 참고하고 싶은 <b>PPTX 파일 1개</b> · 프롬프트 2번에 꼭 필요합니다</li>
+          <li>PPTX 파일을 직접 만들어 주는 AI 환경 (Claude 등) · 프롬프트 4번에서 사용합니다</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <section class="card final" style="margin-top:20px" id="end">
+    <p class="sect-label">수업이 끝난 뒤</p>
+    <h2 class="big">오늘 만든 초안에서 한 가지를 골라 실제 강의자료로 완성해 보세요</h2>
+    <p class="quote">“강의안 + 스토리라인 + 디자인 규칙 → PPTX”</p>
+    <p class="lede">AI에게 “PPT 만들어 줘”라고 하지 않습니다. 강사가 판단하고, AI는 그 생각을 구조화하고 초안을 빠르게 만드는 제작 파트너입니다. 다음 강의를 준비할 때도 이 모음집을 열어 0번부터 다시 따라 하면 됩니다.</p>
+  </section>
+
+  <footer class="foot">노원여성인력개발센터 「생성형 AI로 만드는 나만의 강의안과 슬라이드」 수강생 배부용 · 강사 김은정(꿀쌤), AI톡톡연구소. AI 서비스의 기능과 제공 범위는 계정과 시기에 따라 다를 수 있습니다. AI가 만든 결과물은 내용과 구조를 반드시 직접 확인한 뒤 사용하세요.</footer>
+</div>
+
+<script type="text/plain" id="raw-p0">
+당신은 성인교육 설계 전문가이자 실습형 강의 기획자입니다.
+
+[목표]
+아래 정보를 바탕으로 학습자가 수업 중 직접 결과물을 완성하는 강의안을 설계해 주세요.
+
+[강의 정보]
+- 강의 주제: [작성]
+- 대상·인원: [작성]
+- 사전 지식 수준: [작성]
+- 전체 시간: [60분]
+- 학습 목표: [작성]
+- 반드시 다룰 핵심 내용: [작성]
+- 학습자 실습: [작성]
+- 수업 종료 시 결과물: [작성]
+- 진행 환경·사용 도구: [작성]
+
+[설계 규칙]
+1. 도입–이해–시연–실습–적용–정리 순서로 구성합니다.
+2. 각 단계 소요 시간을 분 단위로 표시하고 합계가 전체 시간과 정확히 일치하게 계산합니다.
+3. 강사 설명과 학습자 활동을 명확히 구분합니다.
+4. 설명보다 실습 비중을 높게 배정합니다.
+5. 초급자도 따라갈 수 있도록 전문용어는 풀어 쓰고 실제 예시를 포함합니다.
+6. 모든 실습에는 입력자료, 수행 절차, 예상 결과물, 성공 기준을 표시합니다.
+7. 실습 실패에 대비한 대체 방법과 강사의 지원 포인트를 포함합니다.
+8. 사실이나 수치를 임의로 만들지 않습니다. 정보가 부족하면 '확인 필요'라고 표시합니다.
+
+[출력 순서]
+1. 과정 개요
+2. 행동 중심 학습 목표 3개
+3. 분 단위 운영표: 단계 / 시간 / 핵심 내용 / 강사 활동 / 학습자 활동 / 자료·도구
+4. 실습 상세안: 입력자료 / 절차 / 예상 결과물 / 성공 기준
+5. 준비물
+6. 운영 유의사항과 대체안
+7. 수업 종료 시 최종 결과물
+8. 시간 합계 및 설명·실습 시간 비율 검산
+
+[이어받기 규칙]
+- 결과 맨 첫 줄에 [강의안 v1] 이라고 이름표를 붙여 주세요.
+- 이 대화에서 이후 단계가 [강의안 v1]을 이름으로 부르면, 다시 붙여넣지 않아도 이 결과를 사용합니다.
+- 내가 수정을 요청하면 [강의안 v2]처럼 번호를 올리고, 이후에는 가장 최신 번호를 사용합니다.
+
+먼저 누락된 필수 정보가 있는지 확인하세요. 결과를 크게 바꿀 정보가 없으면 추가 질문 없이 바로 설계해 주세요.
+</script>
+<script type="text/plain" id="raw-p1">
+# 내 강의설계표 만드는 공통 프롬프트
+
+당신은 성인교육·평생교육·직무교육·AI교육 등 다양한 교육 분야를 설계하는 교수설계 전문가입니다.
+
+## [최종 목표]
+
+사용자가 가진 강의 아이디어를 구체화하여 실제 강의에 바로 활용할 수 있는 **[강의설계표]**를 작성해 주세요.
+
+이 강의설계표는 이후 다음 작업의 기준 자료로 사용됩니다.
+
+강의설계표  
+→ design.md  
+→ 슬라이드 스토리라인  
+→ 편집 가능한 PPTX  
+→ 최종 검수
+
+따라서 막연한 아이디어를 과도하게 확장하지 말고, 학습자·목표·내용·실습·결과물이 서로 연결되도록 설계해 주세요.
+
+---
+
+## [STEP 1 — 먼저 입력 정보 확인]
+
+이 대화에서 이미 확인된 정보가 있다면 다시 질문하지 말고 사용합니다.
+
+다음 항목 중 확인되지 않은 내용만 질문해 주세요.
+
+1. 강의 주제
+2. 주요 학습자
+3. 교육 시간
+4. 예상 인원
+5. 교육 환경
+   - 대면 / 온라인 / 혼합
+   - 개인 PC 또는 스마트폰 사용 여부
+6. 학습자의 현재 수준
+7. 학습자가 가장 어려워하는 점
+8. 교육 후 학습자가 할 수 있어야 하는 것
+9. 교육 후 만들어야 하는 결과물
+10. 반드시 포함하고 싶은 내용 또는 도구
+11. 제외하거나 최소화하고 싶은 내용
+12. 기타 제약사항
+
+질문은 한 번에 너무 많이 하지 말고, 강의 설계에 반드시 필요한 핵심 정보부터 확인합니다.
+
+이미 충분한 정보가 있다면 추가 질문 없이 바로 설계를 시작합니다.
+
+---
+
+## [STEP 2 — 강의 목표 구체화]
+
+강의 목표는 단순히
+
+- 이해한다
+- 알아본다
+- 배운다
+
+와 같이 추상적으로 작성하지 않습니다.
+
+학습자가 교육 후 실제로 수행할 수 있는 행동을 중심으로 작성합니다.
+
+예:
+
+나쁜 목표  
+“ChatGPT 활용법을 이해한다.”
+
+좋은 목표  
+“ChatGPT를 활용하여 자신의 업무에 필요한 공지문 초안을 작성할 수 있다.”
+
+가능하면 목표는 다음 구조로 작성합니다.
+
+**학습자는 + 조건/도구를 활용하여 + 구체적인 행동 또는 결과물을 완성할 수 있다.**
+
+강의 전체의 핵심 목표는 1~3개로 제한합니다.
+
+---
+
+## [STEP 3 — 학습자 관점에서 설계]
+
+강사의 설명 순서가 아니라 **학습자의 변화 과정**을 중심으로 설계합니다.
+
+다음 흐름을 기본으로 사용하되 강의 특성에 맞게 조정합니다.
+
+1. 도입  
+   - 왜 배워야 하는가
+   - 학습자의 현재 문제와 연결
+
+2. 이해  
+   - 핵심 개념과 원리 이해
+
+3. 시연  
+   - 강사가 실제 수행 과정을 보여줌
+
+4. 실습  
+   - 학습자가 직접 수행
+
+5. 적용  
+   - 자신의 상황 또는 업무에 적용
+
+6. 정리  
+   - 핵심 내용 확인
+   - 다음 행동 결정
+
+강의 전체 시간을 고려하여 설명보다 실습과 적용 시간이 충분히 확보되도록 합니다.
+
+---
+
+## [STEP 4 — 강의 내용 선정]
+
+교육목표 달성에 필요한 내용만 포함합니다.
+
+다음 기준으로 내용을 선별합니다.
+
+### 반드시 포함
+목표 달성을 위해 꼭 필요한 내용
+
+### 있으면 좋은 내용
+시간이 허용되면 추가할 내용
+
+### 제외
+흥미롭지만 현재 교육목표와 직접 관련이 없는 내용
+
+도구나 기능을 많이 소개하기보다 학습자가 실제 결과물을 완성하는 데 필요한 내용에 집중합니다.
+
+---
+
+## [STEP 5 — 시간 배분]
+
+전체 강의시간을 먼저 확인한 뒤 세부 시간을 배분합니다.
+
+시간의 합계는 반드시 전체 강의시간과 일치해야 합니다.
+
+각 활동에는 현실적인 시간을 배정합니다.
+
+특히 다음 시간을 충분히 고려합니다.
+
+- 로그인·파일 준비
+- 강사 시연
+- 개인 실습
+- 결과 생성 대기
+- 오류 대응
+- 질문
+- 결과 확인
+- 휴식
+
+3시간 이상 교육일 경우 적절한 휴식시간을 포함합니다.
+
+실습 중심 교육에서는 강사 설명 시간이 전체 교육시간의 절반을 넘지 않도록 우선 검토합니다.
+
+---
+
+## [STEP 6 — 실습 설계]
+
+실습은 단순히 “따라 해보기”라고 작성하지 않습니다.
+
+각 실습마다 다음 네 가지를 명확히 합니다.
+
+### 입력자료
+학습자가 무엇을 가지고 시작하는가?
+
+### 수행
+무엇을 해야 하는가?
+
+### 결과물
+무엇이 완성되어야 하는가?
+
+### 성공 기준
+어느 정도 만들어지면 성공인가?
+
+실습은 가능하면 학습자가 자신의 실제 주제·업무·경험을 활용하도록 설계합니다.
+
+---
+
+# [최종 출력 1 — 강의 개요]
+
+다음 형식으로 먼저 정리해 주세요.
+
+| 항목 | 내용 |
+|---|---|
+| 강의명 |  |
+| 부제 |  |
+| 대상 |  |
+| 예상 인원 |  |
+| 교육시간 |  |
+| 교육형태 |  |
+| 학습자 현재 수준 |  |
+| 학습자가 겪는 핵심 어려움 |  |
+| 핵심 교육목표 |  |
+| 최종 결과물 |  |
+| 주요 활용 도구 |  |
+
+---
+
+# [최종 출력 2 — 핵심 교육목표]
+
+교육 후 학습자가 할 수 있어야 하는 핵심 행동을 최대 3개로 작성합니다.
+
+형식:
+
+1. 학습자는 ______할 수 있다.
+2. 학습자는 ______할 수 있다.
+3. 학습자는 ______할 수 있다.
+
+---
+
+# [최종 출력 3 — 전체 학습 흐름]
+
+다음 형식으로 전체 강의 흐름을 작성합니다.
+
+**현재 상태 → 이해 → 시연 → 실습 → 적용 → 최종 결과물**
+
+각 단계는 한 문장 이내로 간결하게 설명합니다.
+
+---
+
+# [최종 출력 4 — 강의설계표]
+
+다음 8개 열을 사용하여 표로 작성합니다.
+
+| 시간 | 단계/모듈 | 학습목표 | 핵심 내용 | 강사 활동 | 학습자 활동 | 실습 결과물 | 성공 기준 |
+|---|---|---|---|---|---|---|---|
+
+작성 규칙:
+
+1. 모든 시간의 합은 전체 교육시간과 정확히 일치해야 합니다.
+2. 한 모듈에는 가능한 한 하나의 핵심 목표만 둡니다.
+3. 강사의 설명보다 학습자의 행동을 중심으로 작성합니다.
+4. 실습이 있다면 반드시 결과물과 성공 기준을 작성합니다.
+5. 필요하면 휴식시간을 별도의 행으로 표시합니다.
+6. 도구 이름보다 학습 목적을 먼저 적습니다.
+7. 수강생의 수준에 비해 지나치게 많은 내용을 넣지 않습니다.
+
+---
+
+# [최종 출력 5 — 실습 상세표]
+
+실습이 있는 경우 다음 표를 별도로 작성합니다.
+
+| 실습명 | 입력자료 | 수행 절차 | 예상 결과물 | 성공 기준 | 예상 시간 |
+|---|---|---|---|---|---|
+
+각 실습은 수업 중 실제 실행 가능한 수준으로 작성합니다.
+
+---
+
+# [최종 출력 6 — 강사 준비물]
+
+다음 세 가지로 구분합니다.
+
+### 강사 준비
+- 시연 파일
+- 예제
+- 프롬프트
+- 참고자료
+- 예비자료
+
+### 학습자 사전 준비
+- 계정
+- 기기
+- 파일
+- 주제 또는 사전 생각
+
+### 현장 확인
+- 인터넷
+- 프로젝터
+- 로그인
+- 프로그램 설치
+- 파일 저장 위치 등
+
+필요한 항목만 작성합니다.
+
+---
+
+# [최종 출력 7 — 예상 문제와 대응]
+
+실습형 강의라면 예상되는 문제를 최소 3개 작성합니다.
+
+| 예상 문제 | 강의 중 대응 방법 |
+|---|---|
+|  |  |
+
+예:
+
+- 생성 속도 차이
+- 무료·유료 계정 기능 차이
+- 로그인 문제
+- 학습자 수준 차이
+- 파일 업로드 오류
+- 결과물 품질 차이
+
+단, 확인되지 않은 특정 서비스의 기능이나 제한을 사실처럼 단정하지 않습니다.
+
+---
+
+# [최종 출력 8 — 강의 핵심 메시지]
+
+강의 전체를 관통하는 메시지를 학습자가 기억하기 쉬운 한 문장으로 작성합니다.
+
+예:
+
+“AI가 일을 대신하는 것이 아니라, 내가 더 잘 일하도록 돕는 파트너로 활용합니다.”
+
+---
+
+# [최종 출력 9 — 수업 종료 후 다음 행동]
+
+마지막에는 단순히 “감사합니다”로 끝내지 않고 학습자가 교육 직후 실행할 행동을 1개 제안합니다.
+
+예:
+
+“오늘 만든 초안에서 한 가지를 골라 실제 업무에 적용해 보세요.”
+
+---
+
+## [자체 검수]
+
+출력 후 다음 항목을 스스로 확인하고 결과를 보고해 주세요.
+
+- 전체 시간 합계가 맞는가?
+- 교육목표와 최종 결과물이 연결되는가?
+- 각 모듈이 교육목표 달성에 필요한가?
+- 강사 설명이 지나치게 많지 않은가?
+- 학습자 실습 시간이 충분한가?
+- 실습마다 결과물과 성공 기준이 있는가?
+- 대상자의 수준에 비해 내용이 과도하지 않은가?
+- 필요하지 않은 도구 소개가 포함되어 있지 않은가?
+- 마지막에 실제 행동이 제시되어 있는가?
+
+문제가 있으면 강의설계표를 수정한 뒤 최종본을 제시합니다.
+
+---
+
+## [이어받기 규칙]
+
+결과의 첫 줄에 다음 이름표를 붙입니다.
+
+**[강의설계표 v1]**
+
+수정할 때마다 버전을 올립니다.
+
+- 첫 작성: [강의설계표 v1]
+- 첫 수정: [강의설계표 v2]
+- 두 번째 수정: [강의설계표 v3]
+
+이후 슬라이드 스토리라인을 만들 때는 반드시 가장 최신 버전의 [강의설계표]를 사용합니다.
+
+사용자가 별도로 전체 내용을 다시 붙여넣지 않아도, 같은 대화 안에서는 최신 버전을 기준으로 이어서 작업합니다.
+
+---
+
+## [중요 원칙]
+
+1. 확인되지 않은 정보를 임의로 만들어 채우지 않습니다.
+2. 사용자가 제공한 대상·시간·환경·도구 등의 조건을 우선합니다.
+3. 교육목표와 관계없는 내용을 욕심내서 추가하지 않습니다.
+4. 강의시간이 부족하면 내용을 압축하거나 제외하고 무리하게 모두 넣지 않습니다.
+5. 최신 기능·요금제·법령·통계 등 확인이 필요한 내용은 확인 필요 항목으로 표시합니다.
+6. 강의설계표는 이후 스토리라인과 PPT 제작의 기준 문서가 되므로 내용보다 구조와 연결성을 우선합니다.
+7. 강의안을 단순 목차로 만들지 말고, 학습자가 실제로 무엇을 하고 무엇을 완성하는지가 보이도록 설계합니다.
+</script>
+<script type="text/plain" id="raw-p2">
+당신은 프레젠테이션 디자인 시스템 분석가입니다.
+
+[목표]
+첨부한 PPTX의 모든 슬라이드를 분석해, 다른 교육용 PPT에서도 재현할 수 있는 design.md를 영문 마크다운으로 작성해 주세요.
+
+[중요 원칙]
+1. 모든 슬라이드를 확인하고 일부 슬라이드만 보고 일반화하지 않습니다.
+2. 파일에서 직접 확인한 값, 렌더링 이미지로 추정한 값, 확인할 수 없는 값을 명확히 구분합니다.
+3. 확인할 수 없는 폰트명·좌표·색상값을 사실처럼 단정하지 않습니다.
+4. 원본에 없는 폰트·색상·레이아웃을 새로 만들지 않습니다.
+5. 위치와 크기는 inch, 폰트는 pt, 색상은 HEX로 기록합니다.
+6. 커버와 가장 많이 반복되는 본문 마스터를 별도 기준으로 분석합니다.
+
+[STEP 1 — 슬라이드 인벤토리]
+- 전체 슬라이드 수를 확인합니다.
+- 각 슬라이드를 커버 / 목차 / 섹션 타이틀 / 본문 1단 / 본문 2단 / 비교 / 프로세스 / 데이터 / 실습 / 클로징 등으로 분류합니다.
+- 반복 빈도와 대표 슬라이드 번호를 기록합니다.
+
+[STEP 2 — 기준 슬라이드 선정]
+- 첫 번째 슬라이드는 커버 기준으로 분석합니다.
+- 가장 많이 반복되는 본문 유형의 대표 슬라이드를 본문 마스터 기준으로 선정합니다.
+- 공통 요소와 예외 요소를 구분합니다.
+
+[STEP 3 — 요소 측정]
+- 슬라이드 크기와 화면 비율
+- 배경색·이미지·그라디언트
+- 주요 색상 팔레트와 용도
+- 제목·본문·캡션·페이지 번호의 폰트, 크기, 굵기, 행간, 정렬
+- 상하좌우 여백, 컬럼, 거터, 요소 간 간격
+- 이미지 프레임·크롭·마스크 방식
+- 반복 도형, 선, 배지, 헤더, 푸터, 페이지 번호
+- 정보 위계와 시선 이동 순서
+
+[출력 구조 — Design System Specification]
+0. Slide Format
+1. Color Palette
+2. Typography System
+3. Cover Specification
+4. Body Master Specification
+5. Global Grid, Margins and Spacing
+6. Layout Types and Usage Rules
+7. Reusable Components
+8. Prohibited Patterns and QA Checklist
+
+[표기 규칙]
+- 직접 확인: Confirmed
+- 이미지 기반 추정: Estimated
+- 확인 불가: Needs source verification
+- 각 값에는 근거가 된 슬라이드 번호를 함께 기록합니다.
+- 마지막에 '확실히 재현 가능한 요소'와 '원본 확인이 필요한 요소'를 따로 요약합니다.
+
+[저장]
+- 결과 전체를 design.md 파일로 내려받을 수 있게 제공해 주세요.
+- 이 파일은 ChatGPT 프로젝트 파일과 Claude 스킬에 그대로 넣어 다시 사용합니다.
+</script>
+<script type="text/plain" id="raw-p3">
+당신은 교육용 프레젠테이션 설계 전문가입니다.
+
+[목표]
+강의안을 20~30장의 교육용 슬라이드 스토리라인으로 변환해 주세요.
+
+[입력]
+이 대화에서 만든 [강의안]의 가장 최신 버전을 사용합니다. 다시 붙여넣지 않았습니다.
+
+[변환 규칙]
+1. 한 슬라이드에는 핵심 메시지 하나만 둡니다.
+2. 제목은 명사형 주제가 아니라 그 장의 결론을 말하는 완결된 문장으로 씁니다.
+3. 제목만 순서대로 읽어도 강의의 논리 흐름이 이해되어야 합니다.
+4. 강의안의 설명문을 본문에 그대로 옮기지 말고 핵심 근거·예시·행동으로 압축합니다.
+5. 숫자 비교, 시간 변화, 단계, 원인과 결과, 구조, 범주 비교는 반드시 적합한 시각화로 전환합니다.
+6. 슬라이드마다 시각화 형식은 가장 적합한 것 1개만 추천합니다.
+7. 실습 슬라이드는 안내–수행–결과 확인 순서로 구성합니다.
+8. 시각 자료에 없는 수치·사례·출처를 만들지 않습니다. 필요한 자료가 없으면 '필요 데이터'에 적습니다.
+9. 마지막 장은 '감사합니다'가 아니라 학습자가 바로 실행할 행동으로 끝냅니다.
+10. 전체 흐름은 도입–이해–시연–실습–적용–정리의 학습 진행을 따릅니다.
+
+[출력 형식]
+표로 작성하며 다음 8개 열을 사용하세요.
+- 번호
+- 결론형 제목
+- 이 슬라이드의 교육적 목적
+- 화면에 보일 최소 내용
+- 추천 시각화 형식
+- 강사 설명 포인트
+- 학습자 활동
+- 앞뒤 슬라이드 연결 문장
+
+[자체 검수]
+표 아래에 다음을 별도로 보고하세요.
+- 총 슬라이드 수
+- 한 장 한 메시지 위반 여부
+- 주제형 제목이 남아 있는지
+- 시각화가 필요한데 글로 남은 슬라이드
+- 마지막 장의 실행 행동
+
+[이어받기 규칙]
+- 결과 맨 첫 줄에 [스토리라인 v1] 이라고 이름표를 붙여 주세요.
+- 수정 시 번호를 올리고 이후에는 최신 번호를 사용합니다.
+</script>
+<script type="text/plain" id="raw-p4">
+당신은 교육학 기반의 프레젠테이션 설계자이자 PowerPoint 제작 전문가입니다.
+
+[최종 목표]
+아래 세 가지 입력을 결합해 실제 강의에 사용할 수 있는 편집 가능한 16:9 PPTX를 제작해 주세요.
+
+[입력 — 다시 붙여넣지 않았습니다]
+- 입력 1: 이 대화의 [강의안] 최신 버전
+- 입력 2: 이 대화의 [스토리라인] 최신 버전
+- 입력 3: 프로젝트 파일 design.md
+
+[시작 전 확인]
+제작 전에 위 세 가지의 이름표·버전과 제목만 목록으로 먼저 보여 주세요.
+찾을 수 없는 것이 있으면 제작하지 말고 무엇이 빠졌는지만 알려 주세요.
+
+[BLOCK 1 — 콘텐츠 규칙]
+1. 한 슬라이드에는 핵심 메시지 하나만 둡니다.
+2. 모든 제목은 그 장의 결론을 말하는 문장으로 작성합니다.
+3. 강의안의 긴 설명문을 슬라이드 본문에 그대로 옮기지 않습니다.
+4. 화면에는 핵심 근거·예시·행동만 남기고 상세 설명은 발표자 노트로 이동합니다.
+5. 존재하지 않는 수치·사례·인용·출처를 만들지 않습니다.
+6. 실습 슬라이드는 안내–수행–결과 확인 순서로 구성합니다.
+7. 마지막 장은 감사 인사가 아니라 학습자가 실행할 다음 행동을 제시합니다.
+
+[BLOCK 2 — 시각화·레이아웃 규칙]
+1. 숫자·비교·과정·구조·관계는 텍스트 나열 대신 차트·프로세스·매트릭스·구조도로 표현합니다.
+2. 슬라이드당 시각화는 최대 2개까지만 사용합니다.
+3. 빈 공간을 의미 없는 장식으로 채우지 말고 근거, 예시 또는 So What을 배치합니다.
+4. design.md의 색상·폰트·여백·컬럼·반복 요소를 우선 적용합니다.
+5. 텍스트가 넘치면 글자를 축소하지 말고 문장을 줄이거나 슬라이드를 분리합니다.
+6. 모든 요소는 슬라이드 경계 안에 배치하고 의도하지 않은 겹침을 금지합니다.
+
+[BLOCK 3 — 이미지·아이콘 규칙]
+1. 아이콘은 정보 탐색을 돕는 경우에만 사용합니다.
+2. 이모지와 유니코드 기호를 아이콘 대신 사용하지 않습니다.
+3. 아이콘의 선 굵기·채움·색상 스타일을 통일합니다.
+4. 의미 없는 장식 이미지와 가짜 데이터 시각화를 만들지 않습니다.
+5. 외부 이미지와 비자명한 주장에는 출처를 기록합니다.
+
+[BLOCK 4 — 출력 요구사항]
+1. 화면 비율 16:9의 편집 가능한 PPTX로 출력합니다.
+2. 각 슬라이드에 발표자 노트를 넣습니다: 예상 시간 / 핵심 전달 포인트 / 멘트 / 인터랙션 / 다음 장 연결.
+3. 모든 실습 장에 입력자료 / 절차 / 예상 결과물 / 성공 기준을 포함합니다.
+4. 파일 생성 후 모든 슬라이드를 렌더링해 잘림·겹침·경계 이탈·글꼴 문제를 확인하고 수정합니다.
+5. PPTX와 별도로 '검수 결과'를 보고합니다.
+
+[검수 결과 보고 형식]
+- 총 슬라이드 수와 전체 흐름
+- 한 장 한 메시지 위반 여부
+- 결론형 제목 위반 여부
+- 시각화 누락 여부
+- design.md 적용 여부
+- 텍스트 잘림·겹침·경계 이탈 여부
+- 발표자 노트 포함 여부
+- 사실·수치·출처 확인 필요 항목
+- 수정 완료 내역과 남은 확인 사항
+
+입력끼리 충돌하면 콘텐츠 정확성 → 학습 효과 → design.md → 장식 순서로 우선합니다. 생성 후 반드시 검수 결과를 함께 제시하세요.
+</script>
+<script type="text/plain" id="raw-p5">
+이 대화에서 만든 PPTX를 수정하기 전에 모든 슬라이드를 렌더링해 아래 기준으로 먼저 진단해 주세요.
+
+[검수 기준]
+1. 한 슬라이드 한 메시지
+2. 결론형 제목과 전체 논리 흐름
+3. 숫자·비교·과정·구조·관계의 시각화
+4. design.md의 색상·폰트·여백·반복 요소 일치
+5. 텍스트 잘림·도형 겹침·슬라이드 경계 이탈
+6. 이미지 해상도·크롭·스타일 일관성
+7. 발표자 노트의 누락
+8. 사실·수치·출처 확인 필요 항목
+
+[수정 방식]
+- 먼저 슬라이드별 문제와 수정안을 표로 보고합니다.
+- 확정된 문제만 수정합니다.
+- 글자가 넘치면 축소보다 문장 축약 또는 슬라이드 분리를 우선합니다.
+- 정상인 슬라이드와 원본 디자인 요소는 변경하지 않습니다.
+- 수정 후 전 슬라이드를 다시 렌더링해 같은 기준으로 재검수합니다.
+
+[최종 출력]
+- 수정된 PPTX
+- 수정 전·후 변경 목록
+- 통과한 검수 항목
+- 남은 확인 필요 사항
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var STORE = "nowon-ai-lecture-prompt-book-v1";
+  var data = { f:{}, done:{} };
+  try{ var r = localStorage.getItem(STORE); if(r){ var o = JSON.parse(r); if(o && typeof o === "object"){ data.f = o.f || {}; data.done = o.done || {}; } } }catch(e){}
+  function save(){ try{ localStorage.setItem(STORE, JSON.stringify(data)); }catch(e){} }
+
+  function el(t,c,h){ var n=document.createElement(t); if(c)n.className=c; if(h!=null)n.innerHTML=h; return n; }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  function raw(id){ return document.getElementById(id).textContent.replace(/^\s*\n/,"").replace(/\s+$/,""); }
+
+  function copyBtn(getText, label, cls){
+    var b = el("button", cls || "cpy", esc(label));
+    b.type = "button";
+    b.onclick = function(){
+      var txt = getText();
+      function ok(){ b.textContent = "복사했습니다"; b.classList.add("done");
+        setTimeout(function(){ b.textContent = label; b.classList.remove("done"); }, 1800); }
+      function no(){ b.textContent = "글자를 선택해 Ctrl+C"; setTimeout(function(){ b.textContent = label; }, 2400); }
+      try{ navigator.clipboard.writeText(txt).then(ok, no); }catch(e){ no(); }
+    };
+    return b;
+  }
+
+  // ⟦...⟧ marks the parts the learner replaces
+  function render(text){ return esc(text).replace(/⟦/g,'<span class="fill">').replace(/⟧/g,'</span>'); }
+  function promptBlock(label, getText, opts){
+    opts = opts || {};
+    var wrap = el("div","prompt" + (opts.mini ? " mini" : ""));
+    var bar = el("div","prompt-bar");
+    bar.appendChild(el("span","pl", esc(label)));
+    var t0 = getText();
+    var lines = t0.split("\n").length;
+    if(!opts.mini) bar.appendChild(el("span","ln", lines + "줄"));
+    bar.appendChild(el("span","sp"));
+    var pre = el("pre");
+    if(!opts.mini && lines > 22){
+      wrap.classList.add("long");
+      var tg = el("button","tgl","전체 펼치기"); tg.type = "button";
+      tg.onclick = function(){ var o = wrap.classList.toggle("open"); tg.textContent = o ? "접기" : "전체 펼치기"; };
+      bar.appendChild(tg);
+    }
+    bar.appendChild(copyBtn(function(){ return getText().replace(/[⟦⟧]/g,""); }, opts.mini ? "복사" : "프롬프트 복사"));
+    wrap.appendChild(bar);
+    pre.innerHTML = render(t0);
+    wrap.appendChild(pre);
+    wrap._refresh = function(){ pre.innerHTML = render(getText()); };
+    return wrap;
+  }
+
+  function stepsList(arr){
+    var ol = el("ol","steps");
+    arr.forEach(function(s,i){
+      var li = el("li");
+      li.appendChild(el("span","sn", String(i+1)));
+      li.appendChild(el("span","st", s[0] + (s[1] ? '<span class="note">' + s[1] + '</span>' : "")));
+      ol.appendChild(li);
+    });
+    return ol;
+  }
+  function box(kind, title, html){ var b = el("div","box " + kind); b.appendChild(el("p","bk",esc(title))); b.appendChild(el("div","",html)); return b; }
+  function ul(items){ return "<ul>" + items.map(function(x){ return "<li>" + x + "</li>"; }).join("") + "</ul>"; }
+
+  /* ───────── 프롬프트 0 빈칸 ───────── */
+  var P0_FIELDS = [
+    ["topic","강의 주제","","예) 우리 동네 어르신 스마트폰 사진 정리"],
+    ["who","대상·인원","","예) 60대 복지관 이용자 10명"],
+    ["level","사전 지식 수준","","예) 카카오톡은 쓰지만 앱 설치는 어려워함"],
+    ["time","전체 시간","기본 60분","60분"],
+    ["goal","학습 목표","","예) 사진을 앨범별로 정리하고 가족에게 보낼 수 있다"],
+    ["core","반드시 다룰 핵심 내용","",""],
+    ["prac","학습자 실습","",""],
+    ["result","수업 종료 시 결과물","",""],
+    ["env","진행 환경·사용 도구","","예) 개인 스마트폰, 빔프로젝터"]
+  ];
+  var P0_KEYS = { "강의 주제":"topic","대상·인원":"who","사전 지식 수준":"level","전체 시간":"time","학습 목표":"goal","반드시 다룰 핵심 내용":"core","학습자 실습":"prac","수업 종료 시 결과물":"result","진행 환경·사용 도구":"env" };
+  function p0Text(){
+    return raw("raw-p0").split("\n").map(function(line){
+      var m = line.match(/^- (.+?): \[(.+?)\]\s*$/);
+      if(!m || !P0_KEYS[m[1]]) return line;
+      var v = (data.f[P0_KEYS[m[1]]] || "").trim();
+      return "- " + m[1] + ": " + (v ? v : "⟦[" + m[2] + "]⟧");
+    }).join("\n");
+  }
+  function hl(id){ return function(){ return raw(id); }; }
+
+  /* ───────── content ───────── */
+  var PR = [
+    { id:"p0", badge:"프롬프트 0", time:"STEP 1 · 강의 설계", ch:"STEP 1 · 내 강의 설계하기",
+      chTitle:"누구에게, 무엇을 가르칠지 먼저 정합니다",
+      chText:"0번과 1번은 같은 단계입니다. 강의 정보가 이미 정리되어 있으면 0번, 아이디어만 있으면 1번을 쓰세요. 둘 다 써도 좋습니다.",
+      title:"강의안 설계 (교수설계자 프롬프트)",
+      flowName:"강의안 설계", flowDesc:"정리된 강의 정보 9가지를 넣고 한 번에 강의안 받기", out:["[강의안 v1]"], alt:true,
+      why:"주제, 대상, 시간, 목표처럼 내가 이미 정한 정보를 빈칸에 채워 넣으면 도입–이해–시연–실습–적용–정리 순서의 분 단위 강의안이 나옵니다. 실습마다 입력자료, 절차, 결과물, 성공 기준까지 함께 적어 줍니다.",
+      io:[["넣는 것","강의 정보 9가지 (빈칸)"],["받는 것","분 단위 운영표가 있는 강의안"],["이름표","[강의안 v1]"]],
+      steps:[
+        ["아래 <b>빈칸 채우기</b>에 내 강의 정보를 적습니다.","적는 즉시 프롬프트 상자 안의 [작성] 자리에 들어갑니다. 비워 둔 칸은 주황색 [작성]으로 남으니, 붙여 넣은 뒤 AI 창에서 고쳐도 됩니다."],
+        ["<b>프롬프트 복사</b>를 눌러 AI 입력창에 붙여 넣고 보냅니다.",""],
+        ["결과 첫 줄에 <code>[강의안 v1]</code> 이름표가 붙었는지 확인합니다.","AI가 빠진 정보를 먼저 물어보면 답해 주세요."],
+        ["마지막의 <b>시간 합계 검산</b>을 봅니다. 합계가 전체 시간과 같아야 합니다.",""]
+      ],
+      sheet:true, prompt:"raw-p0",
+      check:["첫 줄에 [강의안 v1] 이름표가 있다","도입–이해–시연–실습–적용–정리 순서다","단계별 시간의 합이 전체 시간과 정확히 같다","실습마다 입력자료 / 절차 / 예상 결과물 / 성공 기준이 있다"],
+      stuck:[["내용이 너무 일반적일 때","내용이 너무 일반적이야. ⟦[강의 대상]⟧이 실제로 겪는 상황 예시를 넣어서 다시 써 줘."],["시간 합계가 맞지 않을 때","시간 합계를 다시 계산해서 표를 고쳐 줘."]]
+    },
+    { id:"p1", badge:"프롬프트 1", time:"STEP 1 · 강의 설계",
+      title:"내 강의설계표 만드는 공통 프롬프트",
+      flowName:"강의설계표", flowDesc:"아이디어만 있어도 AI가 필요한 것만 물어보며 설계표 완성", out:["[강의설계표 v1]"],
+      why:"강의 아이디어가 아직 막연할 때 쓰는 프롬프트입니다. AI가 확인되지 않은 정보만 골라 질문하고, 답을 바탕으로 강의 개요, 핵심 목표, 8열 강의설계표, 실습 상세표, 준비물, 예상 문제와 대응까지 9가지를 정리해 줍니다.",
+      io:[["넣는 것","강의 아이디어 한두 문장"],["받는 것","강의설계표 + 실습 상세표 등 9가지"],["이름표","[강의설계표 v1]"]],
+      steps:[
+        ["<b>프롬프트 복사</b> 후 AI 입력창에 붙여 넣습니다.","프롬프트가 길어서 상자에는 일부만 보입니다. 복사 버튼은 전체를 복사합니다."],
+        ["붙여 넣은 글 <b>맨 아래에 한 줄</b>을 더 적고 보냅니다.","예) 내 강의 아이디어: 40~50대 경력보유 여성에게 블로그 글쓰기를 3시간 동안 가르치고 싶어."],
+        ["AI가 질문하면 아는 만큼 답합니다.","모르는 것은 “아직 정하지 않았어, 추천해 줘”라고 답해도 됩니다."],
+        ["결과 첫 줄의 <code>[강의설계표 v1]</code>과 마지막 <b>자체 검수</b> 결과를 확인합니다.",""]
+      ],
+      prompt:"raw-p1",
+      check:["교육목표가 “~할 수 있다”는 행동 문장이다","강의설계표 시간 합계가 전체 교육시간과 같다","실습마다 결과물과 성공 기준이 있다","마지막에 수업 후 실행할 행동이 1개 있다"],
+      stuck:[["1번으로 설계했다면 (3·4번 전에)","3번·4번 프롬프트의 [강의안]은 이 대화의 [강의설계표] 최신 버전을 말해."],["너무 길고 내용이 많을 때","내 학습자 수준에 비해 내용이 많아. 꼭 필요한 것만 남기고 [강의설계표 v2]로 줄여 줘."]]
+    },
+    { id:"p2", badge:"프롬프트 2", time:"STEP 2 · 디자인 규칙", ch:"STEP 2 · 내 디자인을 design.md로",
+      chTitle:"‘예쁘게’ 대신 디자인 규칙을 알려 줍니다",
+      chText:"좋아하는 PPT 하나를 보여 주고 색상, 글꼴, 여백, 레이아웃 규칙을 뽑아 설명서로 만듭니다. 이 설명서가 4번에서 PPT 디자인의 기준이 됩니다.",
+      title:"프레젠테이션 디자인 시스템 분석 → design.md",
+      flowName:"디자인 분석", flowDesc:"참고 PPTX에서 색상·글꼴·여백·레이아웃 규칙 추출", out:["design.md"],
+      why:"참고 PPTX의 모든 슬라이드를 살펴보고, 다른 PPT에서도 똑같이 재현할 수 있는 디자인 설명서(design.md)를 만듭니다. 파일에서 확인한 값과 추정한 값을 따로 표시하게 해서, 없는 색이나 글꼴을 지어내지 않도록 했습니다.",
+      io:[["넣는 것","참고하고 싶은 PPTX 1개"],["받는 것","design.md 파일 (영문 마크다운)"],["이름표","design.md"]],
+      steps:[
+        ["AI 입력창의 <b>클립(+) 버튼</b>으로 참고 PPTX를 첨부합니다.",""],
+        ["<b>프롬프트 복사</b> 후 붙여 넣고 보냅니다.",""],
+        ["결과로 나온 <b>design.md 파일을 내려받아</b> 내 폴더에 저장합니다.","AI가 다시 읽을 설명서라서 영문으로 받습니다. 내용이 궁금하면 “이 design.md를 한국어로 짧게 요약해 줘”라고 물어보세요."],
+        ["4번에서 이 파일을 다시 첨부하거나 프로젝트 파일로 올립니다.",""]
+      ],
+      prompt:"raw-p2",
+      check:["0~8번 목차(Slide Format부터 QA Checklist까지)가 모두 있다","색상은 HEX, 글꼴은 pt, 위치는 inch로 적혀 있다","값마다 Confirmed / Estimated / Needs source verification 표시가 있다","파일로 내려받을 수 있다"],
+      stuck:[["PPTX 파일을 읽지 못할 때","표지·본문·표·마무리 슬라이드 3~4장을 캡처해 이미지로 올린 뒤 같은 프롬프트를 다시 실행합니다.",true],["값이 흐릿하게 나올 때","색상을 HEX 코드로, 글꼴 크기를 pt 숫자로 다시 정리해 줘."]]
+    },
+    { id:"p3", badge:"프롬프트 3", time:"STEP 3 · 스토리라인", ch:"STEP 3 · 강의안을 스토리라인으로",
+      chTitle:"PPT를 만들기 전에 슬라이드 설계도부터",
+      chText:"한 장에 메시지 하나, 제목은 결론 문장으로. 제목만 순서대로 읽어도 강의 흐름이 이해되면 성공입니다.",
+      title:"슬라이드 스토리라인 작성",
+      flowName:"스토리라인", flowDesc:"강의안을 20~30장 슬라이드 설계도로 변환", out:["[스토리라인 v1]"],
+      why:"강의안을 20~30장의 교육용 슬라이드 구조로 바꿉니다. 장마다 결론형 제목, 교육 목적, 화면에 보일 최소 내용, 추천 시각화, 강사 설명 포인트, 학습자 활동, 앞뒤 연결 문장까지 8열 표로 받습니다.",
+      io:[["넣는 것","같은 대화의 [강의안] 최신 버전"],["받는 것","8열 스토리라인 표 + 자체 검수"],["이름표","[스토리라인 v1]"]],
+      steps:[
+        ["강의안(또는 강의설계표)을 만든 <b>같은 대화창</b>에서 이어서 붙여 넣습니다.","다른 대화창이라면 강의안 전체를 프롬프트 아래에 붙여 넣으세요."],
+        ["결과 첫 줄의 <code>[스토리라인 v1]</code>을 확인합니다.",""],
+        ["<b>제목 열만</b> 위에서 아래로 소리 내어 읽어 봅니다.","옆 사람과 서로 바꿔 읽어 주면 더 잘 보입니다."],
+        ["고칠 점을 말하면 <code>[스토리라인 v2]</code>로 번호가 올라갑니다.",""]
+      ],
+      prompt:"raw-p3",
+      check:["제목만 이어 읽어도 이야기가 이어진다","“AI 활용법” 같은 주제형 제목이 남아 있지 않다","숫자·비교·과정이 글이 아닌 시각화로 추천되어 있다","마지막 장이 ‘감사합니다’가 아니라 실행할 행동이다"],
+      stuck:[["흐름이 끊길 때","제목만 순서대로 읽었을 때 이야기가 이어지도록 제목을 다시 다듬어 줘."],["장수가 너무 많을 때","비슷한 내용의 장을 합쳐서 ⟦25⟧장으로 줄여 줘."]]
+    },
+    { id:"p4", badge:"프롬프트 4", time:"STEP 4 · PPTX 제작", ch:"STEP 4 · 편집 가능한 PPTX 만들기",
+      chTitle:"세 가지 입력을 합쳐 PPT 초안을 만듭니다",
+      chText:"강의안 + 스토리라인 + design.md. 이 세 가지가 모두 있어야 시작합니다. PPTX 파일을 직접 만들어 주는 AI 환경(Claude 등)에서 진행하세요.",
+      title:"최종 PPT 생성 (편집 가능한 16:9 PPTX)",
+      flowName:"PPTX 생성", flowDesc:"강의안 + 스토리라인 + design.md → 편집 가능한 PPT", out:["PPTX 초안","검수 결과"],
+      why:"내용 규칙, 시각화·레이아웃 규칙, 이미지·아이콘 규칙, 출력 요구사항 네 블록으로 AI에게 제작 기준을 줍니다. 슬라이드마다 발표자 노트가 들어가고, 만든 뒤 스스로 렌더링해 잘림과 겹침을 확인한 검수 결과까지 함께 받습니다.",
+      io:[["넣는 것","[강의안] + [스토리라인] + design.md"],["받는 것","16:9 PPTX + 검수 결과 보고"],["이름표","PPTX 파일"]],
+      steps:[
+        ["강의안과 스토리라인을 만든 <b>같은 대화창</b>에 design.md를 첨부합니다.","프로젝트 기능을 쓰면 design.md를 프로젝트 파일로 올려 두세요."],
+        ["<b>프롬프트 복사</b> 후 붙여 넣고 보냅니다.",""],
+        ["AI가 먼저 보여 주는 <b>입력 3가지 목록</b>(이름표·버전·제목)을 확인합니다.","빠진 것이 있다고 하면 그 자료부터 채워 주세요."],
+        ["PPTX를 내려받아 PowerPoint로 열고, 글자를 클릭해 <b>편집되는지</b> 확인합니다.",""]
+      ],
+      prompt:"raw-p4",
+      check:["16:9 비율이고 글자를 직접 고칠 수 있다","제목이 스토리라인의 결론형 제목 그대로다","발표자 노트에 시간·포인트·멘트·인터랙션·다음 장 연결이 있다","검수 결과 보고가 함께 나왔다"],
+      stuck:[["design.md를 첨부만 했을 때 (프로젝트 없음)","입력 3의 design.md는 이 대화에 첨부한 design.md 파일이야."],["생성이 중간에 멈출 때","⟦11⟧번 슬라이드부터 이어서 만들어 줘."],["장수가 많아 오류가 날 때","1~10번 슬라이드만 먼저 만들어 줘."]]
+    },
+    { id:"p5", badge:"프롬프트 5", time:"STEP 5 · 검수", ch:"STEP 5 · AI가 만든 PPT 검수하기",
+      chTitle:"AI가 만든 PPT는 초안입니다",
+      chText:"고치기 전에 문제부터 표로 보고 받습니다. 확정된 문제만 고치고, 고친 뒤 같은 기준으로 다시 확인합니다.",
+      title:"PPT 검수 (진단 → 수정 → 재검수)",
+      flowName:"검수", flowDesc:"8가지 기준으로 진단하고 확정된 문제만 수정", out:["수정된 PPTX","변경 목록"],
+      why:"한 장 한 메시지, 결론형 제목, 시각화, design.md 일치, 잘림·겹침, 이미지, 발표자 노트, 사실·수치 확인까지 8가지 기준으로 전 슬라이드를 살핍니다. 정상인 슬라이드와 원래 디자인은 건드리지 않게 했습니다.",
+      io:[["넣는 것","같은 대화에서 만든 PPTX"],["받는 것","문제·수정안 표 → 수정된 PPTX"],["이름표","수정 전·후 변경 목록"]],
+      steps:[
+        ["PPTX를 만든 <b>같은 대화창</b>에서 이어서 붙여 넣습니다.","다른 대화창이라면 PPTX를 첨부하고, 첫 줄의 ‘이 대화에서 만든 PPTX’를 ‘첨부한 PPTX’로 바꿔 보내세요."],
+        ["먼저 나오는 <b>슬라이드별 문제와 수정안 표</b>를 읽습니다.",""],
+        ["고칠 것과 그대로 둘 것을 정해 AI에게 알려 줍니다.","예) 3번, 7번, 12번만 수정해 줘."],
+        ["수정된 PPTX와 <b>남은 확인 필요 사항</b>을 받고, 사실·수치는 직접 한 번 더 확인합니다.",""]
+      ],
+      prompt:"raw-p5",
+      check:["수정 전에 문제와 수정안이 표로 먼저 나왔다","글자가 넘친 곳은 축소보다 문장 줄이기·장 나누기로 고쳤다","수정 후 다시 렌더링해 재검수했다","‘남은 확인 필요 사항’을 내가 직접 확인했다"],
+      stuck:[["무엇부터 고칠지 모를 때","표에서 강의 전달에 가장 영향이 큰 문제 3가지만 골라서 먼저 수정해 줘."],["원본 디자인이 바뀌었을 때","정상인 슬라이드와 원본 디자인 요소는 바꾸지 말고, 표에서 확정한 문제만 다시 수정해 줘."]]
+    }
+  ];
+
+  /* ───────── build ───────── */
+  var main = document.getElementById("main");
+  var toc = document.getElementById("toc");
+  var flowList = document.getElementById("flowList");
+
+  PR.forEach(function(p, i){
+    // flow map
+    var fs = el("div","fstep" + (p.alt ? " alt" : ""));
+    fs.appendChild(el("div","dot", String(i)));
+    var fb = el("div","fb");
+    fb.appendChild(el("p","fn", '<a href="#' + p.id + '">' + esc(p.flowName) + '</a>'));
+    fb.appendChild(el("p","fd", esc(p.flowDesc) + (p.alt ? " · 1번과 같은 단계, 골라 쓰기" : "")));
+    var fo = el("div","fo");
+    fo.appendChild(el("span","t", esc(p.time.replace(/ · .*/,""))));
+    p.out.forEach(function(o){ fo.appendChild(el("span","", esc(o))); });
+    fb.appendChild(fo); fs.appendChild(fb); flowList.appendChild(fs);
+
+    // nav
+    var a = el("a","", esc(p.badge.replace("프롬프트 ","")) + " " + esc(p.flowName)); a.href = "#" + p.id; a.id = "nav-" + p.id; toc.appendChild(a);
+
+    // chapter divider
+    if(p.ch){
+      var ch = el("div","chapter");
+      ch.appendChild(el("p","ch-k", esc(p.ch)));
+      ch.appendChild(el("h2","", esc(p.chTitle)));
+      ch.appendChild(el("p","", esc(p.chText)));
+      main.appendChild(ch);
+    }
+
+    var c = el("section","card"); c.id = p.id;
+    var top = el("div","p-top");
+    top.appendChild(el("span","p-badge", esc(p.badge)));
+    top.appendChild(el("span","p-time", esc(p.time)));
+    var lab = el("label","chk p-done");
+    var cb = el("input"); cb.type = "checkbox"; cb.id = "done-" + p.id; cb.checked = !!data.done[p.id];
+    lab.appendChild(cb); lab.appendChild(el("span","","사용했어요"));
+    if(cb.checked) lab.classList.add("on");
+    cb.onchange = function(){ data.done[p.id] = cb.checked; lab.classList.toggle("on", cb.checked); save(); prog(); };
+    top.appendChild(lab);
+    c.appendChild(top);
+    c.appendChild(el("h3","p-title", esc(p.title)));
+    c.appendChild(el("p","p-why", esc(p.why)));
+
+    var io = el("div","io");
+    p.io.forEach(function(x, k){
+      var d = el("div"); d.appendChild(el("p","k", esc(x[0])));
+      d.appendChild(el("p","v", k === 2 ? '<span class="tag">' + esc(x[1]) + '</span>' : esc(x[1])));
+      io.appendChild(d);
+    });
+    c.appendChild(io);
+    c.appendChild(stepsList(p.steps));
+
+    var pb;
+    if(p.sheet){
+      var sh = el("div","sheet");
+      sh.innerHTML = '<div class="sheet-h"><span class="t">빈칸 채우기</span><span class="n">여기에 쓰면 아래 프롬프트에 바로 들어갑니다 · 이 브라우저에 저장</span></div>';
+      var g = el("div","fgrid");
+      P0_FIELDS.forEach(function(f){
+        var w = el("div","fld"); var id = "f_" + f[0];
+        w.innerHTML = '<label for="' + id + '">' + esc(f[1]) + (f[2] ? ' <span class="q">' + esc(f[2]) + '</span>' : '') + '</label>';
+        var inp = el("input"); inp.type = "text"; inp.id = id; inp.value = data.f[f[0]] || ""; if(f[3]) inp.placeholder = f[3];
+        inp.oninput = function(){ data.f[f[0]] = inp.value; save(); pb._refresh(); };
+        w.appendChild(inp); g.appendChild(w);
+      });
+      sh.appendChild(g);
+      var row = el("div","row");
+      var clr = el("button","btn ghost","빈칸 모두 지우기"); clr.type = "button";
+      clr.onclick = function(){ P0_FIELDS.forEach(function(f){ data.f[f[0]] = ""; document.getElementById("f_" + f[0]).value = ""; }); save(); pb._refresh(); };
+      row.appendChild(clr); sh.appendChild(row);
+      c.appendChild(sh);
+      pb = promptBlock("프롬프트 0 · 강의안 설계", p0Text);
+    } else {
+      pb = promptBlock(p.badge + " · " + p.flowName, hl(p.prompt));
+    }
+    c.appendChild(pb);
+
+    c.appendChild(box("ok","잘 됐는지 확인", ul(p.check.map(esc))));
+    var st = box("warn","막힐 때 한 줄","");
+    var inner = st.lastChild;
+    p.stuck.forEach(function(s){
+      var t = el("p","", "<b>" + esc(s[0]) + "</b>"); t.style.marginTop = "10px"; inner.appendChild(t);
+      if(s[2]){ inner.appendChild(el("p","", esc(s[1]))); }
+      else { inner.appendChild(promptBlock("붙여 넣을 문장", (function(x){ return function(){ return x; }; })(s[1]), {mini:true})); }
+    });
+    inner.firstChild.style.marginTop = "0";
+    c.appendChild(st);
+    main.appendChild(c);
+  });
+  var e = el("a","","마무리"); e.href = "#end"; toc.appendChild(e);
+
+  function prog(){
+    var n = 0; PR.forEach(function(p){ var on = !!data.done[p.id]; if(on) n++; var a = document.getElementById("nav-" + p.id); if(a) a.classList.toggle("on", on); });
+    document.getElementById("tf").style.width = (n / PR.length * 100) + "%";
+    document.getElementById("tn").textContent = n + " / " + PR.length;
+  }
+  prog();
+})();
+</script>
